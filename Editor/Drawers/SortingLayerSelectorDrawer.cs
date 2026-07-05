@@ -2,46 +2,49 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 
-[CustomPropertyDrawer(typeof(SortingLayerSelectorAttribute))]
-public class SortingLayerSelectorDrawer : PropertyDrawer
+namespace SafeStringGenerator
 {
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    [CustomPropertyDrawer(typeof(SortingLayerSelectorAttribute))]
+    public class SortingLayerSelectorDrawer : PropertyDrawer
     {
-        if (property.propertyType == SerializedPropertyType.Integer || property.propertyType == SerializedPropertyType.String)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            SortingLayer[] sortingLayers = SortingLayer.layers;
-            string[] names = new string[sortingLayers.Length];
-            int selectedIndex = 0;
-
-            for (int i = 0; i < sortingLayers.Length; i++)
+            if (property.propertyType == SerializedPropertyType.Integer || property.propertyType == SerializedPropertyType.String)
             {
-                names[i] = sortingLayers[i].name;
+                SortingLayer[] sortingLayers = SortingLayer.layers;
+                string[] names = new string[sortingLayers.Length];
+                int selectedIndex = 0;
 
-                if (property.propertyType == SerializedPropertyType.Integer && sortingLayers[i].id == property.intValue)
+                for (int i = 0; i < sortingLayers.Length; i++)
                 {
-                    selectedIndex = i;
+                    names[i] = sortingLayers[i].name;
+
+                    if (property.propertyType == SerializedPropertyType.Integer && sortingLayers[i].id == property.intValue)
+                    {
+                        selectedIndex = i;
+                    }
+                    else if (property.propertyType == SerializedPropertyType.String && sortingLayers[i].name == property.stringValue)
+                    {
+                        selectedIndex = i;
+                    }
                 }
-                else if (property.propertyType == SerializedPropertyType.String && sortingLayers[i].name == property.stringValue)
+
+                selectedIndex = EditorGUI.Popup(position, label.text, selectedIndex, names);
+
+                if (property.propertyType == SerializedPropertyType.Integer)
                 {
-                    selectedIndex = i;
+                    property.intValue = sortingLayers[selectedIndex].id;
                 }
-            }
-
-            selectedIndex = EditorGUI.Popup(position, label.text, selectedIndex, names);
-
-            if (property.propertyType == SerializedPropertyType.Integer)
-            {
-                property.intValue = sortingLayers[selectedIndex].id;
+                else
+                {
+                    property.stringValue = sortingLayers[selectedIndex].name;
+                }
             }
             else
             {
-                property.stringValue = sortingLayers[selectedIndex].name;
+                EditorGUI.PropertyField(position, property, label);
+                Debug.LogWarning("[SortingLayerSelector] can only be used with string variables.");
             }
-        }
-        else
-        {
-            EditorGUI.PropertyField(position, property, label);
-            Debug.LogWarning("[SortingLayerSelector] can only be used with string variables.");
         }
     }
 }

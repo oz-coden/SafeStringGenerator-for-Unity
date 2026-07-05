@@ -1,30 +1,33 @@
 using UnityEditor;
 
-public class GeneratorUpdateDetector : AssetPostprocessor
+namespace SafeStringGenerator
 {
-    static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
+    public class GeneratorUpdateDetector : AssetPostprocessor
     {
-        foreach (string path in importedAssets)
+        static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
         {
-            if (path.Equals("ProjectSettings/TagManager.asset"))
+            foreach (string path in importedAssets)
             {
-                TagModifiers.Generate();
-                LayerModifiers.Generate();
-                SortingLayerModifiers.Generate();
-            }
-            if (path.Equals("ProjectSettings/EditorBuildSettings.asset"))
-            {
-                SceneModifiers.Generate();
+                if (path.Equals("ProjectSettings/TagManager.asset"))
+                {
+                    TagModifiers.Generate();
+                    LayerModifiers.Generate();
+                    SortingLayerModifiers.Generate();
+                }
+                if (path.Equals("ProjectSettings/EditorBuildSettings.asset"))
+                {
+                    SceneModifiers.Generate();
+                }
             }
         }
-    }
 
-    [MenuItem("Tools/Generate Constants/Generate All")]
-    public static void GenerateAll()
-    {
-        TagModifiers.Generate();
-        LayerModifiers.Generate();
-        SortingLayerModifiers.Generate();
-        SceneModifiers.Generate();
+        [MenuItem("Tools/Generate Constants/Generate All")]
+        public static void GenerateAll()
+        {
+            TagModifiers.Generate();
+            LayerModifiers.Generate();
+            SortingLayerModifiers.Generate();
+            SceneModifiers.Generate();
+        }
     }
 }

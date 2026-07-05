@@ -1,19 +1,22 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomPropertyDrawer(typeof(TagSelectorAttribute))]
-public class TagSelectorDrawer : PropertyDrawer
+namespace SafeStringGenerator
 {
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    [CustomPropertyDrawer(typeof(TagSelectorAttribute))]
+    public class TagSelectorDrawer : PropertyDrawer
     {
-        if (property.propertyType == SerializedPropertyType.String)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            property.stringValue = EditorGUI.TagField(position, label, property.stringValue);
-        }
-        else
-        {
-            EditorGUI.PropertyField(position, property, label);
-            Debug.LogWarning("[TagSelector] can only be used with string variables.");
+            if (property.propertyType == SerializedPropertyType.String)
+            {
+                property.stringValue = EditorGUI.TagField(position, label, property.stringValue);
+            }
+            else
+            {
+                EditorGUI.PropertyField(position, property, label);
+                Debug.LogWarning("[TagSelector] can only be used with string variables.");
+            }
         }
     }
 }
