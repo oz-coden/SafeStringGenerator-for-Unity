@@ -13,6 +13,7 @@ namespace SafeStringGenerator
         [MenuItem("Tools/Generate Constants/Tag")]
         public static void Generate()
         {
+            Modifiers modifier = new Modifiers();
             StringBuilder builder = new StringBuilder();
 
             builder.AppendLine("// This is a generated file. Do not modify it manually.");
@@ -20,7 +21,7 @@ namespace SafeStringGenerator
             builder.AppendLine("{");
             foreach (string tag in InternalEditorUtility.tags)
             {
-                string safeName = tag.Replace(" ", "").Replace("/", "");
+                string safeName = modifier.GetSafeNameWithDeduplication(tag);
                 builder.AppendLine($"    public const string {safeName} = \"{tag}\";");
             }
             builder.AppendLine("}");

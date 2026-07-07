@@ -22,6 +22,7 @@ namespace SafeStringGenerator
         public static void Generate()
         {
             Node root = new Node { name = "SceneName" };
+            Modifiers modifier = new Modifiers();
 
             foreach (EditorBuildSettingsScene scene in EditorBuildSettings.scenes)
             {
@@ -29,30 +30,41 @@ namespace SafeStringGenerator
 
                 string path = scene.path;
                 string pathWithoutExt = path.Replace(".unity", "");
-
-                if (pathWithoutExt.StartsWith("Assets/"))
-                {
-                    pathWithoutExt = pathWithoutExt.Substring(7);
-                }
+                if (pathWithoutExt.StartsWith("Assets/")) { pathWithoutExt = pathWithoutExt.Substring(7); }
 
                 string[] parts = pathWithoutExt.Split('/');
                 Node current = root;
 
                 for (int i = 0; i < parts.Length; i++)
                 {
-                    string safeName = Regex.Replace(parts[i], @"[^a-zA-Z0-9_]", "");
-
-                    if (Regex.IsMatch(safeName, @"^\d")) safeName = "_" + safeName;
-
-                    if (!current.children.ContainsKey(safeName))
-                    {
-                        current.children[safeName] = new Node { name = safeName };
-                    }
-                    current = current.children[safeName];
+                    string safeName = modifier.GetSanitizedName(parts[i]);
 
                     if (i == parts.Length - 1)
                     {
-                        current.scenePath = path;
+                        string finalName = safeName;
+                        int counter = 1;
+
+                        while (current.children.ContainsKey(finalName) &&
+                               current.children[finalName].scenePath != null &&
+                               current.children[finalName].scenePath != path)
+                        {
+                            finalName = safeName + "_" + counter;
+                            counter++;
+                        }
+
+                        if (!current.children.ContainsKey(finalName))
+                        {
+                            current.children[finalName] = new Node { name = finalName };
+                        }
+                        current.children[finalName].scenePath = path;
+                    }
+                    else
+                    {
+                        if (!current.children.ContainsKey(safeName))
+                        {
+                            current.children[safeName] = new Node { name = safeName };
+                        }
+                        current = current.children[safeName];
                     }
                 }
             }

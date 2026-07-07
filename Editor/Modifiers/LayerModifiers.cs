@@ -13,6 +13,7 @@ namespace SafeStringGenerator
         [MenuItem("Tools/Generate Constants/Layer")]
         public static void Generate()
         {
+            Modifiers modifier = new Modifiers();
             StringBuilder builder = new StringBuilder();
 
             builder.AppendLine("// This is a generated file. Do not modify it manually.");
@@ -20,7 +21,7 @@ namespace SafeStringGenerator
             builder.AppendLine("{");
             foreach (string layer in InternalEditorUtility.layers)
             {
-                string safeName = layer.Replace(" ", "").Replace("/", "");
+                string safeName = modifier.GetSafeNameWithDeduplication(layer);
                 int layerIndex = LayerMask.NameToLayer(layer);
                 builder.AppendLine($"    public const int {safeName} = {layerIndex};");
             }

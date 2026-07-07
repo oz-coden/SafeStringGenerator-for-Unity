@@ -13,6 +13,7 @@ namespace SafeStringGenerator
         [MenuItem("Tools/Generate Constants/SortingLayerName")]
         public static void Generate()
         {
+            Modifiers modifier = new Modifiers();
             StringBuilder builder = new StringBuilder();
 
             builder.AppendLine("// This is a generated file. Do not modify it manually.");
@@ -20,7 +21,7 @@ namespace SafeStringGenerator
             builder.AppendLine("{");
             foreach (SortingLayer sortingLayer in SortingLayer.layers)
             {
-                string safeName = sortingLayer.name.Replace(" ", "").Replace("/", "");
+                string safeName = modifier.GetSafeNameWithDeduplication(sortingLayer.name);
 
                 builder.AppendLine($"    public const string {safeName} = \"{sortingLayer.name}\";");
 
