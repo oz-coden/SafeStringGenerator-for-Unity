@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.0 - 2026-09-14
+## 2.0.0
 
 - Redesigned generation around deterministic, Unity-independent identifier, literal, and Scene-tree logic.
 - Added collision-safe generated APIs under `SafeStringGenerator.Generated`.
