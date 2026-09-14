@@ -1,9 +1,16 @@
 {
   "name": "com.github.oz-coden.safestringgenerator",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "displayName": "Safe String Generator",
-  "description": "Generates safe constants for Tags, Layers, SortingLayers, and Scenes, and provides property drawers for inspector dropdowns.",
+  "description": "Generates deterministic constants for Unity Tags, Layers, Sorting Layers, and enabled Scenes, with safe Inspector selectors.",
   "unity": "2021.3",
+  "keywords": [
+    "tag",
+    "layer",
+    "scene",
+    "code-generation",
+    "editor"
+  ],
   "author": {
     "name": "oz-coden",
     "url": "https://github.com/oz-coden"
