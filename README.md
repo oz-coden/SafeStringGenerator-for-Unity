@@ -184,7 +184,7 @@ to change the generated files path.
 The default path is:
 
 ```text
-Assets/Generated/SafeStringGenerator
+Assets/Scripts/SafeStringGenerator
 ```
 
 Only subfolders of `Assets/` can be used.
@@ -404,7 +404,7 @@ Edit > Project Settings > Safe String Generator
 既定値は以下です。
 
 ```text
-Assets/Generated/SafeStringGenerator
+Assets/Scripts/SafeStringGenerator
 ```
 
 指定できるのは`Assets/`配下のfolderのみです。
