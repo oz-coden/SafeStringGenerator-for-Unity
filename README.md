@@ -45,7 +45,7 @@ For example:
 
 ```text
 Assets/Scenes/World1/Battle.unity
-````
+```
 
 is generated as:
 
