@@ -8,8 +8,8 @@
 - Added event-driven regeneration with snapshot comparison and no per-frame polling.
 - Added Project Settings for the generated files path.
 - Reworked all PropertyDrawers to preserve missing and mixed values until explicit user input.
-- Added Runtime, Editor, and Editor Test assembly definitions, including generated `.asmref` integration.
-- Added Editor tests for identifiers, literals, Scene generation, writer safety, update decisions, and drawer mutations.
+- Added Runtime and Editor assembly definitions, including generated `.asmref` integration.
+- Added internal Editor tests for identifiers, literals, Scene generation, writer safety, update decisions, and drawer mutations.
 - Moved selector attributes into the `SafeStringGenerator` namespace.
 
 ## 1.0.2
